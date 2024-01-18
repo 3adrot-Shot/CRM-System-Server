@@ -8,6 +8,8 @@ namespace TableHost.Back
 {
     internal class Socket_Controller
     {
-        
+        public static void connect()
+        {
+        }
     }
 }

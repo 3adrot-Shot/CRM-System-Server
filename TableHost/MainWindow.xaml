@@ -11,6 +11,16 @@
         MinHeight="450" MinWidth="800"
         >
     <Grid>
+        <ListView x:Name="ConnectionListView" Margin="10" Height="300">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="IP Address" Width="150" DisplayMemberBinding="{Binding IPAddress}" />
+                    <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding Status}" />
+                    <!-- Добавь другие колонки, если нужно -->
+                </GridView>
+            </ListView.View>
+        </ListView>
 
+        <TextBox x:Name="ConsoleTextBox" Margin="10,320,10,10" Height="50" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
     </Grid>
 </Window>
