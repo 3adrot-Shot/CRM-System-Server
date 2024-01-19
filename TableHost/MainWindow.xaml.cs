@@ -1,18 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace TableHost
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    public class ClientInfo
+    {
+        public string Login { get; set; }
+        public string Password { get; set; }
+    }
+
     public partial class MainWindow : Window
     {
         private ObservableCollection<ConnectionInfo> _connections;
+        private TcpListener _listener;
 
         public MainWindow()
         {
@@ -23,13 +29,28 @@ namespace TableHost
             StartListening();
         }
 
-        private async void StartListening()
+        private void StartListening()
+        {
+            try
+            {
+                _listener = new TcpListener(IPAddress.Any, 8081);
+                _listener.Start();
+                ConsoleTextBox.AppendText($"Started server...");
+                WaitForClients();
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex.Message);
+            }
+        }
+
+        private async void WaitForClients()
         {
             try
             {
                 while (true)
                 {
-                    TcpClient client = await listener.AcceptTcpClientAsync();
+                    TcpClient client = await _listener.AcceptTcpClientAsync();
                     HandleClient(client);
                 }
             }
@@ -51,44 +72,12 @@ namespace TableHost
                     string jsonData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                     ClientInfo clientInfo = JsonConvert.DeserializeObject<ClientInfo>(jsonData);
 
-                    // Теперь у тебя есть информация о клиенте в объекте clientInfo
-                    // Ты можешь использовать ее для вывода в консоль или для других действий
-                    Console.WriteLine($"New connection: {clientInfo.Login}");
+                    ConsoleTextBox.AppendText($"New connection: {clientInfo.Login}\n");
 
-                    // Отправляем сообщение обратно клиенту
                     string response = "Welcome, " + clientInfo.Login + "!";
                     byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                     await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleServerError(ex.Message);
-            }
-        }
-
-        private async void HandleConnection(TcpClient client)
-        {
-            try
-            {
-                // Обработка подключения
-                // Тут можешь реализовать авторизацию, обмен данными и т.д.
-
-                // Пример: выводим информацию о подключении в ListView
-                var remoteEndPoint = (IPEndPoint)client.Client.RemoteEndPoint;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    _connections.Add(new ConnectionInfo { IPAddress = remoteEndPoint.Address.ToString(), Status = "Connected" });
-                });
-
-                await Task.Delay(5000); // Пауза для примера, можешь убрать
-
-                // Закрываем соединение
-                client.Close();
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    _connections.Remove(new ConnectionInfo { IPAddress = remoteEndPoint.Address.ToString() });
-                });
             }
             catch (Exception ex)
             {
