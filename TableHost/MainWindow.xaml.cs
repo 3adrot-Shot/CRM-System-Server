@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TableHost.Back;
 
 namespace TableHost
 {
@@ -25,7 +26,6 @@ namespace TableHost
             InitializeComponent();
             _connections = new ObservableCollection<ConnectionInfo>();
             ConnectionListView.ItemsSource = _connections;
-
             StartListening();
         }
 
@@ -66,18 +66,35 @@ namespace TableHost
             {
                 NetworkStream stream = client.GetStream();
                 byte[] buffer = new byte[4096];
-                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
+                StringBuilder sb = new StringBuilder(); // Используем StringBuilder для сбора всех данных
+                int bytesRead;
+
+                do
                 {
-                    string jsonData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    ClientInfo clientInfo = JsonConvert.DeserializeObject<ClientInfo>(jsonData);
+                    bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string jsonData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        sb.Append(jsonData);
+                    }
+                } while (stream.DataAvailable);
 
-                    ConsoleTextBox.AppendText($"New connection: {clientInfo.Login}\n");
-
-                    string response = "Welcome, " + clientInfo.Login + "!";
+                if (sb.Length > 0)
+                {
+                    string jsonData = sb.ToString();
+                    string response = ProcessingMessage.EnterRespons(jsonData);
                     byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                     await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
                 }
+                else
+                {
+                    PrintC($"\nBytesRead = 0\n");
+                    string response = "Null response";
+                    byte[] responseBytes = Encoding.UTF8.GetBytes(response);
+                    await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
+                }
+
+                // Не закрываем соединение здесь
             }
             catch (Exception ex)
             {
@@ -85,12 +102,18 @@ namespace TableHost
             }
         }
 
+
         private void HandleServerError(string errorMessage)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                ConsoleTextBox.AppendText($"Error: {errorMessage}\n");
+                PrintC($"Error: {errorMessage}\n");
             });
+        }
+        
+        public void PrintC(string text)
+        {
+            ConsoleTextBox.AppendText($"Error: {text}\n");
         }
     }
 
