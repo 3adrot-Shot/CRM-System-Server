@@ -34,8 +34,6 @@ namespace TableHost.Back
             return Response;
         }
 
-        
-
         //var jsonStructure = new
         //{
         //    Login = new[]

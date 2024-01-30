@@ -9,18 +9,45 @@
         Title="MainWindow" 
         Height="450" Width="800"
         MinHeight="450" MinWidth="800"
+        Background="Gray"
         >
     <Grid>
-        <ListView x:Name="ConnectionListView" Margin="10" Height="300">
+        <Grid>
+            <Border BorderThickness="10">
+                <Expander Header="Tester expander" IsExpanded="False">
+                    <ListView>
+                        
+                    </ListView>
+                </Expander>
+                        <!--<ListView Background="DarkGray">
+                    <ListViewItem>
+                        <TreeView Height="40" MinWidth="765">
+                            <Label Content="Tested"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-10,3,0,0"/>
+                            <TreeViewItem x:Name="RecivedDate">
+                                <Label Content="Tested label Recived 1"/>
+                            </TreeViewItem>
+                            <TreeViewItem x:Name="ResponceDate">
+                                <Label Content="Tested label Responce 1"/>
+                            </TreeViewItem>
+                        </TreeView>
+                    </ListViewItem>
+                </ListView>-->
+            </Border>
+        </Grid>
+    </Grid>
+    <!--<Grid Visibility="Hidden">
+        <ListView x:Name="ConnectionListView" Margin="10,9,10,305">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="IP Address" Width="150" DisplayMemberBinding="{Binding IPAddress}" />
                     <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding Status}" />
-                    <!-- Добавь другие колонки, если нужно -->
+                    -->
+    <!-- Добавь другие колонки, если нужно -->
+    <!--
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <TextBox x:Name="ConsoleTextBox" Margin="10,320,10,10" Height="50" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
-    </Grid>
+        <TextBox x:Name="ConsoleTextBox" Margin="10,139,10,10" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+    </Grid>-->
 </Window>

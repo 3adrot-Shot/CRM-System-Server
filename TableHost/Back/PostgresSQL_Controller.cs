@@ -62,8 +62,8 @@ namespace TableHost.Back
                         user_first_name = "" + saveParams[2],
                         user_patronymic = "" + saveParams[3],
                         user_email = "" + saveParams[4],
-                        user_avatar_image_id = "/" + saveParams[5],
-                        user_permissions = "/" + saveParams[6],
+                        user_avatar_image_id = "" + saveParams[5],
+                        user_permissions = "" + saveParams[6],
                         user_active = "" + saveParams[7]
                     };
                     return JsonConvert.SerializeObject(jsonStructure, Formatting.Indented);
