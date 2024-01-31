@@ -13,26 +13,31 @@
         >
     <Grid>
         <Grid>
-            <Border BorderThickness="10">
-                <Expander Header="Tester expander" IsExpanded="False">
-                    <ListView>
-                        
-                    </ListView>
-                </Expander>
-                        <!--<ListView Background="DarkGray">
-                    <ListViewItem>
-                        <TreeView Height="40" MinWidth="765">
-                            <Label Content="Tested"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-10,3,0,0"/>
-                            <TreeViewItem x:Name="RecivedDate">
-                                <Label Content="Tested label Recived 1"/>
-                            </TreeViewItem>
-                            <TreeViewItem x:Name="ResponceDate">
-                                <Label Content="Tested label Responce 1"/>
-                            </TreeViewItem>
-                        </TreeView>
-                    </ListViewItem>
-                </ListView>-->
-            </Border>
+            <Expander Header="Data received and response" HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Label Content="Data received:"/>
+                        <RichTextBox VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <Paragraph>
+                                    {"your JSON request here"}
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Label Content="Data response:"/>
+                        <RichTextBox VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <Paragraph>
+                                    {"your JSON response here"}
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </StackPanel>
+                </StackPanel>
+            </Expander>
         </Grid>
     </Grid>
     <!--<Grid Visibility="Hidden">

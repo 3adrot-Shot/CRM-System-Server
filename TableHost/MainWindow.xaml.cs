@@ -5,8 +5,12 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 using TableHost.Back;
 
 namespace TableHost
@@ -29,7 +33,6 @@ namespace TableHost
             //ConnectionListView.ItemsSource = _connections;
             //StartListening();
         }
-
         //private void StartListening()
         //{
         //    try
@@ -120,7 +123,7 @@ namespace TableHost
         //        PrintC($"Error: {errorMessage}\n");
         //    });
         //}
-        
+
         //public void PrintC(string text)
         //{
         //    ConsoleTextBox.AppendText($"\n{text}\n");
