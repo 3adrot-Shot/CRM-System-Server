@@ -3,56 +3,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TableHost"
+        xmlns:local="clr-namespace:TableHost" 
         mc:Ignorable="d"
-        WindowStyle="ToolWindow"
-        Title="MainWindow" 
-        Height="450" Width="800"
-        MinHeight="450" MinWidth="800"
-        Background="Gray"
+        WindowStyle="ThreeDBorderWindow"
+        Title="Tested (TableHost)" 
+        Width="781" MinWidth="781" MaxWidth="781"
+        Height="500" MinHeight="500" 
+        Background="#2E2E2E"
         >
     <Grid>
-        <Grid>
-            <Expander Header="Data received and response" HorizontalAlignment="Stretch">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel>
-                        <Label Content="Data received:"/>
-                        <RichTextBox VerticalScrollBarVisibility="Auto">
-                            <FlowDocument>
-                                <Paragraph>
-                                    {"your JSON request here"}
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
-                    </StackPanel>
-
-                    <StackPanel>
-                        <Label Content="Data response:"/>
-                        <RichTextBox VerticalScrollBarVisibility="Auto">
-                            <FlowDocument>
-                                <Paragraph>
-                                    {"your JSON response here"}
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
-                    </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="105*"/>
+            <ColumnDefinition Width="676*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <ListView ItemsSource="{Binding YourListViewTest}" x:Name="YourListView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#2E2E2E" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#7d7c7c" MinWidth="730">
+                            <Expander Header="{Binding ExpanderHeader}" Foreground="White" Background="Transparent">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Label Content="Data received:" Foreground="White"/>
+                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" Background="#2E2E2E">
+                                                <FlowDocument>
+                                                    <Paragraph>
+                                                        <Run Text="{Binding DataReceived}" Foreground="White"/>
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                        </StackPanel>
+                                        <Grid Width="10"/>
+                                        <StackPanel>
+                                            <Label Content="Data response:" Foreground="White"/>
+                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" Background="#2E2E2E">
+                                                <FlowDocument>
+                                                    <Paragraph>
+                                                        <Run Text="{Binding DataResponse}" Foreground="White"/>
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Grid Height="10"/>
+                                </StackPanel>
+                            </Expander>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Margin="0,344,0,0" Grid.RowSpan="2">
+            <Border BorderThickness="5" Background="Transparent" Margin="0,0,0,0" Height="140">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Debug text:" Foreground="White"/>
+                    <TextBox x:Name="ConsoleTextBox" Background="#7d7c7c" Cursor="Arrow" Margin="0,0,0,0" Height="140" VerticalScrollBarVisibility="Auto" Visibility="Visible" IsReadOnly="True" Loaded="ConsoleTextBox_Loaded"/>
                 </StackPanel>
-            </Expander>
+            </Border>
         </Grid>
     </Grid>
-    <!--<Grid Visibility="Hidden">
-        <ListView x:Name="ConnectionListView" Margin="10,9,10,305">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="IP Address" Width="150" DisplayMemberBinding="{Binding IPAddress}" />
-                    <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding Status}" />
-                    -->
-    <!-- Добавь другие колонки, если нужно -->
-    <!--
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        <TextBox x:Name="ConsoleTextBox" Margin="10,139,10,10" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
-    </Grid>-->
 </Window>

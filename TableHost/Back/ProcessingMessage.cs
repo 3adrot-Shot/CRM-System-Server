@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace TableHost.Back
 {
     internal class ProcessingMessage
     {
         // Определение запроса в нужное русло
-        public static string EnterRespons(string jsonString)
+        public static string EnterResponse(string jsonString)
         {
             PostgreSQL_Controller.Connect();
             JObject jsonObject = JObject.Parse(jsonString);
@@ -28,8 +27,8 @@ namespace TableHost.Back
             }
             string login = jsonObject["Login"][0]["Login"].ToString();
             string password = jsonObject["Login"][0]["Password"].ToString();
-            string platform = jsonObject["ClientInfo"][0]["Platform"].ToString();
-            string version = jsonObject["ClientInfo"][0]["Version"].ToString();
+            //string platform = jsonObject["ClientInfo"][0]["Platform"].ToString();
+            //string version = jsonObject["ClientInfo"][0]["Version"].ToString();
             string Response = PostgreSQL_Controller.Auth(login, password);
             return Response;
         }
@@ -59,7 +58,7 @@ namespace TableHost.Back
     // Проверка актуальной версии программы 
     internal class CheckerPlatform
     {
-        public bool PlatformCheck(string jsonString)
+        public static bool PlatformCheck(string jsonString)
         {
             JObject jsonObject = JObject.Parse(jsonString);
             if (jsonObject["Platform"] != null)
@@ -71,7 +70,7 @@ namespace TableHost.Back
                 return false;
             }
         }
-        public bool CheckVersion(string version, string platform)
+        private static bool CheckVersion(string version, string platform)
         {
             if (platform == "Windows") 
             {

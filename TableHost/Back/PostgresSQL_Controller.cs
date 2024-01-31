@@ -10,8 +10,8 @@ namespace TableHost.Back
 {
     internal class PostgreSQL_Controller
     {
-        public static NpgsqlConnection PGSQL = null;
-        static string ConPSQL = $"Server={Properties.Settings.Default.ParamServer};Port={Properties.Settings.Default.ParamPort};User Id={Properties.Settings.Default.ParamUserId};Password={Properties.Settings.Default.Password};Database={Properties.Settings.Default.Database};";
+        public static NpgsqlConnection? PGSQL = null;
+        static readonly string ConPSQL = $"Server={Properties.Settings.Default.ParamServer};Port={Properties.Settings.Default.ParamPort};User Id={Properties.Settings.Default.ParamUserId};Password={Properties.Settings.Default.Password};Database={Properties.Settings.Default.Database};";
         public static bool Connect()
         {
             try
@@ -20,7 +20,7 @@ namespace TableHost.Back
                 PGSQL.Open();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -29,7 +29,7 @@ namespace TableHost.Back
         {
             PGSQL.Close();
         }
-        public static string Auth(string Login, string Password, string TableName = "user")
+        public static string Auth(string Login, string Password)
         {
             Close();
             var cmd = new NpgsqlCommand();
@@ -73,14 +73,14 @@ namespace TableHost.Back
                     return "{False}";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "{Error}";
             }
         }
-        public static string GetProjectList(string id)
-        {
-            return null;
-        }
+        //public static string? GetProjectList(string id)
+        //{
+        //    return null;
+        //}
     }
 }
