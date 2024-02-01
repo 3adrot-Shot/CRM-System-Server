@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TableHost" 
         mc:Ignorable="d"
         WindowStyle="ThreeDBorderWindow"
         Title="Tested (TableHost)" 
@@ -13,15 +12,11 @@
         >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="105*"/>
-            <ColumnDefinition Width="676*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <ListView ItemsSource="{Binding YourListViewTest}" x:Name="YourListView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#2E2E2E" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Grid.Row="0">
+            <ListView x:Name="YourListView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#2E2E2E" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border Background="#7d7c7c" MinWidth="730">
@@ -30,7 +25,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <Label Content="Data received:" Foreground="White"/>
-                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" Background="#2E2E2E">
+                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" MaxHeight="200" MaxWidth="360"  Background="#2E2E2E">
                                                 <FlowDocument>
                                                     <Paragraph>
                                                         <Run Text="{Binding DataReceived}" Foreground="White"/>
@@ -41,7 +36,7 @@
                                         <Grid Width="10"/>
                                         <StackPanel>
                                             <Label Content="Data response:" Foreground="White"/>
-                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" Background="#2E2E2E">
+                                            <RichTextBox VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="360" MinHeight="200" MaxHeight="200" MaxWidth="360" Background="#2E2E2E">
                                                 <FlowDocument>
                                                     <Paragraph>
                                                         <Run Text="{Binding DataResponse}" Foreground="White"/>
@@ -58,13 +53,16 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Column="0" Grid.ColumnSpan="2" Margin="0,344,0,0" Grid.RowSpan="2">
-            <Border BorderThickness="5" Background="Transparent" Margin="0,0,0,0" Height="140">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Debug text:" Foreground="White"/>
-                    <TextBox x:Name="ConsoleTextBox" Background="#7d7c7c" Cursor="Arrow" Margin="0,0,0,0" Height="140" VerticalScrollBarVisibility="Auto" Visibility="Visible" IsReadOnly="True" Loaded="ConsoleTextBox_Loaded"/>
-                </StackPanel>
-            </Border>
+        <Grid Margin="0,0,0,0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Расположение Label -->
+                <RowDefinition Height="*"/>
+                <!-- Растягиваем TextBox на остальную высоту  -->
+                <!-- Заметка под дебила (Тобишь меня, Height - Это высота. Width - Это ШИРИНА!!!!!!!!)-->
+            </Grid.RowDefinitions>
+            <Label Content="Debug text:" Foreground="White" Margin="0,0,0,0"/>
+            <TextBox x:Name="ConsoleTextBox" Background="#7d7c7c" MinHeight="100" MaxHeight="100" Cursor="Arrow" VerticalScrollBarVisibility="Visible" Visibility="Visible" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"/>
         </Grid>
     </Grid>
 </Window>

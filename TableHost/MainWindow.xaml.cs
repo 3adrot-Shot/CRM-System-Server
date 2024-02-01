@@ -5,8 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using TableHost.Back;
-using System.Collections.ObjectModel;
-using Org.BouncyCastle.Tls.Crypto;
+//using Org.BouncyCastle.Tls.Crypto; //// Для шифрования
 
 namespace TableHost
 {
@@ -20,25 +19,20 @@ namespace TableHost
 
     public partial class MainWindow : Window
     {
-        //private ObservableCollection<ConnectionInfo> _connections;
+        ////private ObservableCollection<ConnectionInfo> _connections;
         private TcpListener? _listener;
         public ObservableCollection<YourDataModel> YourDataCollection { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            // Инициализируем коллекцию данных
             YourDataCollection = new ObservableCollection<YourDataModel>();
-
-            // Привязываем коллекцию к ListView
             YourListView.ItemsSource = YourDataCollection;
-
-            // Вызываем метод для добавления примера данных
+            //Вызываем метод для добавления примера данных
             AddExampleData();
+            StartListening();
             //_connections = new ObservableCollection<ConnectionInfo>();
             //ConnectionListView.ItemsSource = _connections;
-            StartListening();
         }
 
         // Метод для добавления примера данных
@@ -115,7 +109,7 @@ namespace TableHost
                     string jsonData = Encoding.UTF8.GetString(receivedData);
                     string response = ProcessingMessage.EnterResponse(jsonData);
                     PrintC($"======\nRecived date: \"{jsonData}\"\nResponse date: \"{response}\"\n ======");
-                    AddExampleData("Header dafault text", jsonData, response);
+                    AddExampleData($"Response ({DateTime.Now})", jsonData, response);
                     byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                     await stream.WriteAsync(BitConverter.GetBytes(responseBytes.Length).AsMemory(0, 4)); // Отправляем длину ответа
                     await stream.WriteAsync(responseBytes);
@@ -147,11 +141,6 @@ namespace TableHost
         public void PrintC(string text)
         {
             ConsoleTextBox.AppendText($"\n{text}\n");
-        }
-
-        private void ConsoleTextBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            StartListening();
         }
     }
 }
